@@ -1,0 +1,27 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # 1. Frontend Service
+  frontend:
+    build: ./Frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    depends_on:
+      - backend
+
+  # 2. Backend Service
+  backend:
+    build: ./Backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Backend:/app
+      - /app/node_modules
+    env_file:
+      - ./Backend/.env # Aapki backend ki .env file load karega
